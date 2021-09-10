@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5587597a70d04469b1b8dcb01768c758" Name="Diagram1" >
+        <EntityTypeShape EntityType="Model1.Book" Width="1.5" PointX="4.875" PointY="1.125" />
+        <EntityTypeShape EntityType="Model1.Order" Width="1.5" PointX="10.375" PointY="1" />
+        <EntityTypeShape EntityType="Model1.User" Width="1.5" PointX="10.375" PointY="3.75" />
+        <AssociationConnector Association="Model1.UserOrder" />
+        <EntityTypeShape EntityType="Model1.Genre" Width="1.5" PointX="0.625" PointY="4" />
+        <AssociationConnector Association="Model1.GenreBook" />
+        <EntityTypeShape EntityType="Model1.Author" Width="1.5" PointX="0.625" PointY="0.625" />
+        <AssociationConnector Association="Model1.AuthorBook" />
+        <EntityTypeShape EntityType="Model1.Publisher" Width="1.5" PointX="2.625" PointY="2.125" />
+        <EntityTypeShape EntityType="Model1.Status" Width="1.5" PointX="7.5" PointY="4.75" />
+        <AssociationConnector Association="Model1.PublisherBook" />
+        <EntityTypeShape EntityType="Model1.BookExemplar" Width="1.5" PointX="7.5" PointY="1.125" />
+        <AssociationConnector Association="Model1.BookExemplarBook" />
+        <AssociationConnector Association="Model1.StatusBookExemplar" />
+        <AssociationConnector Association="Model1.OrderBookExemplar" />
+        <AssociationConnector Association="Model1.BookBook" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

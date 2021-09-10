@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="BookSet" EntityType="Model1.Book" />
+    <EntitySet Name="OrderSet" EntityType="Model1.Order" />
+    <EntitySet Name="UserSet" EntityType="Model1.User" />
+    <AssociationSet Name="UserOrder" Association="Model1.UserOrder">
+      <End Role="User" EntitySet="UserSet" />
+      <End Role="Order" EntitySet="OrderSet" />
+    </AssociationSet>
+    <EntitySet Name="GenreSet" EntityType="Model1.Genre" />
+    <AssociationSet Name="GenreBook" Association="Model1.GenreBook">
+      <End Role="Genre" EntitySet="GenreSet" />
+      <End Role="Book" EntitySet="BookSet" />
+    </AssociationSet>
+    <EntitySet Name="AuthorSet" EntityType="Model1.Author" />
+    <AssociationSet Name="AuthorBook" Association="Model1.AuthorBook">
+      <End Role="Author" EntitySet="AuthorSet" />
+      <End Role="Book" EntitySet="BookSet" />
+    </AssociationSet>
+    <EntitySet Name="PublisherSet" EntityType="Model1.Publisher" />
+    <EntitySet Name="StatusSet" EntityType="Model1.Status" />
+    <AssociationSet Name="PublisherBook" Association="Model1.PublisherBook">
+      <End Role="Publisher" EntitySet="PublisherSet" />
+      <End Role="Book" EntitySet="BookSet" />
+    </AssociationSet>
+    <EntitySet Name="BookExemplarSet" EntityType="Model1.BookExemplar" />
+    <AssociationSet Name="BookExemplarBook" Association="Model1.BookExemplarBook">
+      <End Role="BookExemplar" EntitySet="BookExemplarSet" />
+      <End Role="Book" EntitySet="BookSet" />
+    </AssociationSet>
+    <AssociationSet Name="StatusBookExemplar" Association="Model1.StatusBookExemplar">
+      <End Role="Status" EntitySet="StatusSet" />
+      <End Role="BookExemplar" EntitySet="BookExemplarSet" />
+    </AssociationSet>
+    <AssociationSet Name="OrderBookExemplar" Association="Model1.OrderBookExemplar">
+      <End Role="Order" EntitySet="OrderSet" />
+      <End Role="BookExemplar" EntitySet="BookExemplarSet" />
+    </AssociationSet>
+    <AssociationSet Name="BookBook" Association="Model1.BookBook">
+      <End Role="Book" EntitySet="BookSet" />
+      <End Role="Book1" EntitySet="BookSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <NavigationProperty Name="Genre" Relationship="Model1.GenreBook" FromRole="Book" ToRole="Genre" />
+    <Property Name="GenreId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Author" Relationship="Model1.AuthorBook" FromRole="Book" ToRole="Author" />
+    <Property Name="AuthorId" Type="Int32" Nullable="false" />
+    <Property Name="Pages" Type="Int32" Nullable="false" />
+    <Property Name="Year" Type="Int32" Nullable="false" />
+    <Property Name="Cost" Type="Decimal" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Nullable="false" />
+    <NavigationProperty Name="Publisher" Relationship="Model1.PublisherBook" FromRole="Book" ToRole="Publisher" />
+    <Property Name="PublisherId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="BookExemplars" Relationship="Model1.BookExemplarBook" FromRole="Book" ToRole="BookExemplar" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+    <NavigationProperty Name="Next" Relationship="Model1.BookBook" FromRole="Book" ToRole="Book1" />
+    <NavigationProperty Name="Previous" Relationship="Model1.BookBook" FromRole="Book1" ToRole="Book" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="User" Relationship="Model1.UserOrder" FromRole="Order" ToRole="User" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="BookExemplars" Relationship="Model1.OrderBookExemplar" FromRole="Order" ToRole="BookExemplar" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Orders" Relationship="Model1.UserOrder" FromRole="User" ToRole="Order" />
+    <Property Name="Login" Type="String" Nullable="false" MaxLength="50" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <Association Name="UserOrder">
+    <End Type="Model1.User" Role="User" Multiplicity="1" />
+    <End Type="Model1.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Genre">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <NavigationProperty Name="Books" Relationship="Model1.GenreBook" FromRole="Genre" ToRole="Book" />
+  </EntityType>
+  <Association Name="GenreBook">
+    <End Type="Model1.Genre" Role="Genre" Multiplicity="1" />
+    <End Type="Model1.Book" Role="Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Genre">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Book">
+        <PropertyRef Name="GenreId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Author">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <NavigationProperty Name="Books" Relationship="Model1.AuthorBook" FromRole="Author" ToRole="Book" />
+  </EntityType>
+  <Association Name="AuthorBook">
+    <End Type="Model1.Author" Role="Author" Multiplicity="1" />
+    <End Type="Model1.Book" Role="Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Author">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Book">
+        <PropertyRef Name="AuthorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Publisher">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <NavigationProperty Name="Books" Relationship="Model1.PublisherBook" FromRole="Publisher" ToRole="Book" />
+  </EntityType>
+  <EntityType Name="Status">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <NavigationProperty Name="BookExemplars" Relationship="Model1.StatusBookExemplar" FromRole="Status" ToRole="BookExemplar" />
+  </EntityType>
+  <Association Name="PublisherBook">
+    <End Type="Model1.Publisher" Role="Publisher" Multiplicity="1" />
+    <End Type="Model1.Book" Role="Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Publisher">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Book">
+        <PropertyRef Name="PublisherId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="BookExemplar">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <NavigationProperty Name="Book" Relationship="Model1.BookExemplarBook" FromRole="BookExemplar" ToRole="Book" />
+    <Property Name="BookId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Status" Relationship="Model1.StatusBookExemplar" FromRole="BookExemplar" ToRole="Status" />
+    <Property Name="StatusId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Order" Relationship="Model1.OrderBookExemplar" FromRole="BookExemplar" ToRole="Order" />
+    <Property Name="OrderId" Type="Int32" Nullable="true" />
+  </EntityType>
+  <Association Name="BookExemplarBook">
+    <End Type="Model1.BookExemplar" Role="BookExemplar" Multiplicity="*" />
+    <End Type="Model1.Book" Role="Book" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BookExemplar">
+        <PropertyRef Name="BookId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="StatusBookExemplar">
+    <End Type="Model1.Status" Role="Status" Multiplicity="1" />
+    <End Type="Model1.BookExemplar" Role="BookExemplar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BookExemplar">
+        <PropertyRef Name="StatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="OrderBookExemplar">
+    <End Type="Model1.Order" Role="Order" Multiplicity="0..1" />
+    <End Type="Model1.BookExemplar" Role="BookExemplar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BookExemplar">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BookBook">
+    <End Type="Model1.Book" Role="Book" Multiplicity="0..1" />
+    <End Type="Model1.Book" Role="Book1" Multiplicity="0..1" />
+  </Association>
+</Schema>
